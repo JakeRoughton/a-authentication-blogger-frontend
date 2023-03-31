@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 const RegistrationPage = (props) => {
   const [email, setEmail] = useState("");
-  const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
   const [registerMessage, setRegisterMessage] = useState("");
 
@@ -25,15 +24,7 @@ const RegistrationPage = (props) => {
       />
 			<br/>
 			<br/>
-			<label>Username:</label>
-			<input
-				type="text"
-				onChange={(e)=>{
-					setuserName(e.target.value)
-				}}
-			/>
-			<br/>
-			<br/>
+
       <label>Password:</label>
       <input
         type="password"

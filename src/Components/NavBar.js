@@ -1,6 +1,4 @@
-import { Link } from "react-router-dom";
 import { useAuth } from "../Hooks/Auth";
-import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -13,22 +11,23 @@ const NavBar = () => {
 	const auth = useAuth();
 
 	return (
-		<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-      <Container>
-        <Navbar.Brand href="/">Blogs Blogs Bloooogs</Navbar.Brand>
+		<div>
+		<h3>{auth.userEmail && `Current User: ${auth.userEmail}`}</h3>
+		<Navbar fixed="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar.Brand href="/">Home</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/blogs">Blogs</Nav.Link>
+            <Nav.Link href="/blogs">Blogs blogs and bloooogs</Nav.Link>
             <Nav.Link href="/registration">Registration</Nav.Link>
 			<Nav.Link href="/login">Login</Nav.Link>
             <NavDropdown title="Members only" id="collasible-nav-dropdown">
               <NavDropdown.Item href="/create-one">Create Blog</NavDropdown.Item>
-              <NavDropdown.Item href="/updateBlog">
+              {/* <NavDropdown.Item href="/updateBlog">
                 Update Blog
-              </NavDropdown.Item>
+              </NavDropdown.Item> */}
 			  <NavDropdown.Divider />
-              <NavDropdown.Item href="deleteBlog">Delete Blog</NavDropdown.Item>
+              <NavDropdown.Item href="deleteBlog">Update & Delete Blogs</NavDropdown.Item>
               {/* <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">
                 Separated link
@@ -39,8 +38,8 @@ const NavBar = () => {
             <Nav.Link href="#deets">More deets</Nav.Link>
           </Nav> */}
         </Navbar.Collapse>
-      </Container>
     </Navbar>
+	</div>
 	);
   }
 

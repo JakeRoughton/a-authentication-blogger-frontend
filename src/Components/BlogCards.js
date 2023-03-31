@@ -6,13 +6,14 @@ const urlEndpoint = 'http://localhost:5001/blogs';
 
 export default function BlogCard() {
     const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(false);
+    
+
     useEffect(() => {
         axios.get(`${urlEndpoint}/all`).then((response) => {
             setBlogs(response.data.blogs);
         });
     }, []);
-
-
 
     return (
 
@@ -33,11 +34,3 @@ export default function BlogCard() {
         </div>
     );
 };
-
-
-
-
-                  {/* <h4>{blog.title}</h4>
-                  <h5>by: {blog.author}</h5>
-                  <p className="cardText">{blog.text}</p>
-                  <p className="cardText">Created: {blog.createdAt}</p> */}

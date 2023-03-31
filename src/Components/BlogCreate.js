@@ -1,88 +1,69 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
 
 const urlEndpoint = 'http://localhost:5001/blogs';
 
-export default function BlogPost() {
-  const [blog, setBlog] = useState({
-    _id: '',
-    createdAt: '',
+export default function CreateBlog() {
+  const [formData, setFormData] = useState({
     title: '',
     text: '',
     author: '',
-    lastModified: '',
+    year: '',
     categories: [],
   });
-  const { id } = useParams();
-  const navigate = useNavigate();
-  
-  const [editMode, setEditMode] = useState(false);
-  
-  useEffect(() => {
-    axios.get(`${urlEndpoint}/get-one/${id}`).then((response) => {
-      setBlog(response.data.post);
-    });
-  }, [id]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    const formData = new FormData(event.target);
-    
-    const updatedBlog = {
-      title: formData.get('title'),
-      text: formData.get('text'),
-      author: formData.get('author'),
-      categories: [],
-    };
-    
-    await axios.put(`${urlEndpoint}/update-one/${id}`, updatedBlog);
-    
-    navigate(`/blogs/${id}`);
-  };
 
-  const handleDelete = async () => {
-    await axios.delete(`${urlEndpoint}/delete-one/${id}`);
-    navigate('/blogs');
+    await axios.post(`${urlEndpoint}/create-one`, formData);
+
   };
 
   return (
-    <div className='blog-post'>
-      {editMode ? (
-        <form onSubmit={handleSubmit} className="edit-form">
-
-          <label htmlFor='title'>Title:</label>
-          <input 
-          type='text' 
-          id='title' 
-          name='title' 
-          defaultValue={blog.title} />
-
-          <label htmlFor='text'>Text:</label>
-          <textarea 
-          id='text' 
-          name='text' 
-          defaultValue={blog.text}></textarea>
-
-          <label htmlFor='author'>Author:</label>
-          <input 
-          type='text' 
-          id='author' 
-          name='author' 
-          defaultValue={blog.author} />
-
-          <button type='submit'>Save</button>
-        </form>
-      ) : (
-        <>
-          <h1>{blog.title}</h1>
-          <h2>author: {blog.author}</h2>
-          <p>{blog.text}</p>
-          <button onClick={() => setEditMode(true)}>Edit</button>
-          <button onClick={handleDelete}>Delete</button>
-        </>
-      )}
+    <div>
+    <h1 className="createBlog">Create Blog</h1>
+    <form onSubmit={handleSubmit} className="new-form">
+      <label htmlFor='title'>Title:</label>
+      <input 
+      type='text' 
+      id='title' 
+      name='title' 
+      value={formData.title} 
+      onChange={(event) => 
+      setFormData({ ...formData, title: event.target.value })} />
+      <br/>
+      <br/>
+      <label htmlFor='author'>Author:</label>
+      <input 
+      type='text' 
+      id='author' 
+      name='author'
+      value={formData.author} 
+      onChange={(event) => 
+      setFormData({ ...formData, author: event.target.value })} />
+      <br/>
+      <br/>
+      <label htmlFor='text'>Text:</label>
+      <textarea 
+      id='text' 
+      name='text' 
+      value={formData.text} 
+      onChange={(event) => 
+      setFormData({ ...formData, text: event.target.value })}></textarea>
+      <br/>
+      <br/>
+      <label htmlFor='categories'>Categories:</label>
+      <input 
+      type='text' 
+      id='categories' 
+      name='categories' 
+      value={formData.categories} 
+      onChange={(event) => 
+      setFormData({ ...formData, categories: event.target.value })} />  
+      <br/>
+      <br/>
+      <button type='submit'>Create Blog</button>
+    </form>
     </div>
   );
 }

@@ -4,7 +4,6 @@ import { useAuth } from "../Hooks/Auth";
 
 const LoginPage = (props) => {
   const [email, setEmail] = useState("");
-	const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [loginMessage, setLoginMessage] = useState("");
   const auth = useAuth(); //access the authentication context 
@@ -26,15 +25,6 @@ const LoginPage = (props) => {
 			<br/>
 			<br/>
 
-			<label>Username:</label>
-			<input
-				type="text"
-				onChange={(e)=>{
-				setUserName(e.target.value)
-			}}
-			/>
-			<br/>
-      <br/>
       <label>Password:</label>
       <input
         type="password"

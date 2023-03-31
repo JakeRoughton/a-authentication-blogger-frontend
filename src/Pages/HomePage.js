@@ -10,44 +10,52 @@ const HomePage = () => {
 	console.log(auth);
 
 	// console.log(userToken)
+
+    const fetchMessage = async () => {
+        const headers = {
+            "Content-Type": "application/json",
+            // [process.env.REACT_APP_TOKEN_HEADER_KEY]: auth.userToken
+        }
+
+        headers[process.env.REACT_APP_TOKEN_HEADER_KEY] = auth.userToken
+        // headers.process.env.REACT_APP_TOKEN_HEADER_KEY = auth.userToken
+
+        console.log(headers)
+
+        const response = await fetch(`${urlEndpoint}/users/message`, {
+            method: "GET",
+            headers: headers,
+        });
+        const responseJSON = await response.json();
+        if (responseJSON.success) {setMessage(responseJSON.message)}
+        else{setMessage("")}
+    }
 	
 	useEffect(()=>{
-		const fetchMessage = async () => {
-			const headers = {
-				"Content-Type": "application/json",
-				// [process.env.REACT_APP_TOKEN_HEADER_KEY]: auth.userToken
-			}
+        // if(auth.userToken)
+	
 
-			headers[process.env.REACT_APP_TOKEN_HEADER_KEY] = auth.userToken
-			// headers.process.env.REACT_APP_TOKEN_HEADER_KEY = auth.userToken
 
-			console.log(headers)
-
-			const response = await fetch(`${urlEndpoint}/users/message`, {
-				method: "GET",
-				headers: headers,
-			});
-			const responseJSON = await response.json();
-			console.log(responseJSON)
-			setMessage(responseJSON.message)
-		}
-		if (auth.userToken !== null) {
+        console.log('message', message)
+		if (auth.userToken !== null && auth.userToken !== undefined) {
+            console.log('hello');
 			fetchMessage()
 		}
 		if (auth.userToken === null) {
 			setMessage("")
-		}
-	}, [auth.userToken])
+        }
+	    //  [auth.userToken]
+    }) 
 
 	
 
 	return (
 		<div>
-			<h1>Home Page</h1>
+			<h1>Home</h1>
             <p className="Greeting">The best blogs you never knew you needed</p>
-			<p>Message: {message}</p>
+			{ message.length !== 0 && <p>Message: {message}</p>}
 		</div>
-	)
+    )
 }
 
-export default HomePage
+export default HomePage;
